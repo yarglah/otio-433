@@ -7,8 +7,9 @@
 #include "OTIO.h"
 
 int main(int argc, char *argv[]) {
-	int init = otio_init(OTIO_09HA02, 0x555555, 2, 3);
-
+	//int init = otio_init(OTIO_09HA02, 0x555555, 2, 3);
+	int init = otio_init("bla", 0x555555, 2, 3);
+	
 	if (init == 0) {
 		OTIO_COMMAND action = UNDEFINED;
 		
@@ -26,6 +27,9 @@ int main(int argc, char *argv[]) {
 				printf("Received: 0X%uc\n", (unsigned char) action);
 			}
 		}
+	}
+	else {
+		printf("Init failed: %d\n", init);
 	}
 
 	return 0;

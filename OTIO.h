@@ -46,10 +46,7 @@ enum OTIO_COMMAND {
 	UNDEFINED   = 0xFF
 };
 
-#define OTIO_09HA01	"09HA01"
-#define OTIO_09HA02	"09HA02"
-
-/* Initialize library, must be called before any othe function.
+/* Initialize library, must be called before any other function.
 - modelID: one of OTIO_09x constant
 - deviceID: device unique identifier (command 24 less significant bits)
 - gpio_pin_send: device GPIO pin (RCswitch notation) for transmit
