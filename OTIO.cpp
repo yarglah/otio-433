@@ -4,7 +4,6 @@
 
 #include <RCSwitch.h>
 #include <string.h>
-#include <stdio.h>
 #include <unistd.h>
 #include "OTIO.h"
 
@@ -35,9 +34,7 @@ int otio_init(const char *modelID, unsigned int deviceID, unsigned char gpio_pin
 	otio_cmd.setPulseLength(700);
 	
 	otio_inited = 1;
-	
-	printf("OTIO initialized for model \"%s\" pin_send:%d pin_recv:%d\n", modelID, gpio_pin_send, gpio_pin_recv);
-	
+
 	return 0;
 }
 
@@ -62,13 +59,9 @@ OTIO_COMMAND otio_recv(unsigned long timeout) {
 				}
 			}
 
-			printf("NOT DEFINED 0x%X...\n", value);
-			
 			return UNDEFINED;
 		}
-		else {
-			printf("NOT AVAILABLE...\n");
-		}
+
 		sleep(1);
 	}
 		
