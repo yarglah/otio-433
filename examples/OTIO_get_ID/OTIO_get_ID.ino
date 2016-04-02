@@ -27,6 +27,7 @@ OTIO otio = OTIO(OTIO_09HA02, 0, 10, 2);
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Press remote command...");
 }
 
 void loop() {
