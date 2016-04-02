@@ -4,6 +4,7 @@ Library to control Otio 433 Mhz devices.
 ##Info
 Otio is a french manifacturer of quite low cost 433 devices.
 The library support 09HA01 and 09HA02 remote commands.
+Model is indicated behind the device.
 
 Library is based on RCSwicth.
 OTIO commands are 32 bits length:
@@ -17,3 +18,4 @@ Memory may be optimized by code if this assumption is confirmed on other models.
 
 ##Receive and decode RC codes
 
+Use sample to test.

@@ -86,6 +86,9 @@ public:
 
 	/* Send OTIO command */
 	int send(OTIO_COMMAND code);
+	
+	/* Tool to get the device ID, return device ID if signal detected, or 0 */
+	unsigned long getID();		
 
 private:
 	/* Internal globals */

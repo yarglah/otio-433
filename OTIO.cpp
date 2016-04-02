@@ -68,6 +68,7 @@ OTIO_COMMAND OTIO::recv() {
 			
 			if (value != 0) {
 				unsigned char command = (unsigned char) (value >> 24);
+				unsigned long deviceID = value & 0xFFFFFF;
 				
 				for (int i = 0; i < OTIO_COMMANDS_MAX; i++) {
 					if (otio_codes->codes[i] == command) {
@@ -76,12 +77,14 @@ OTIO_COMMAND OTIO::recv() {
 						break;
 					}
 				}
-				/*
+				
 					Serial.print("OTIO received: 0x");
 					Serial.print(value, HEX);
 					Serial.print(" ");
+					Serial.print(deviceID, HEX);
+					Serial.print(" ");
 					Serial.println(command, HEX);
-				*/
+		
 			}
 			otio_cmd_recv.resetAvailable();		
 		}
@@ -127,3 +130,14 @@ int OTIO::send(OTIO_COMMAND command_code) {
 	return 0;
 }
 
+unsigned long OTIO::getID() {
+	unsigned long ID = 0;
+	
+	if (otio_cmd_recv.available()) {
+		ID = (otio_cmd_recv.getReceivedValue() & 0xFFFFFF);
+		delay(500);
+		otio_cmd_recv.resetAvailable();
+	}
+	
+	return ID;
+}
