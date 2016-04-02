@@ -18,4 +18,4 @@ Memory may be optimized by code if this assumption is confirmed on other models.
 
 ##Receive and decode RC codes
 
-Use sample to test.
+Use OTIO_get_ID sample to retreive device ID, then OTIO_sample for test.

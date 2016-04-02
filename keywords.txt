@@ -18,6 +18,7 @@ otio_send	KEYWORD2
 OTIO		KEYWORD2
 recv		KEYWORD2
 send		KEYWORD2
+getID		KEYWORD2
 	
 #######################################
 # Constants (LITERAL1)

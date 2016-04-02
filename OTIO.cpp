@@ -70,21 +70,23 @@ OTIO_COMMAND OTIO::recv() {
 				unsigned char command = (unsigned char) (value >> 24);
 				unsigned long deviceID = value & 0xFFFFFF;
 				
-				for (int i = 0; i < OTIO_COMMANDS_MAX; i++) {
-					if (otio_codes->codes[i] == command) {
-						commandCode = (OTIO_COMMAND) i;
-						delay(300); // Avoid duplicates	
-						break;
+				if (deviceID == otio_device_ID) {
+					for (int i = 0; i < OTIO_COMMANDS_MAX; i++) {
+						if (otio_codes->codes[i] == command) {
+							commandCode = (OTIO_COMMAND) i;
+							delay(300); // Avoid duplicates	
+							break;
+						}
 					}
+					/*
+						Serial.print("OTIO received: 0x");
+						Serial.print(value, HEX);
+						Serial.print(" ");
+						Serial.print(deviceID, HEX);
+						Serial.print(" ");
+						Serial.println(command, HEX);
+					*/
 				}
-				
-					Serial.print("OTIO received: 0x");
-					Serial.print(value, HEX);
-					Serial.print(" ");
-					Serial.print(deviceID, HEX);
-					Serial.print(" ");
-					Serial.println(command, HEX);
-		
 			}
 			otio_cmd_recv.resetAvailable();		
 		}
