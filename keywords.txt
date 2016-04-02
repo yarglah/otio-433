@@ -1,0 +1,60 @@
+#######################################
+# Syntax Coloring Map For OTIO library
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+OTIO_COMMAND	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+otio_init	KEYWORD2
+otio_recv	KEYWORD2
+otio_send	KEYWORD2
+OTIO		KEYWORD2
+recv		KEYWORD2
+send		KEYWORD2
+	
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+A1_ON 	LITERAL1
+A1_OFF	LITERAL1
+A2_ON 	LITERAL1
+A2_OFF	LITERAL1
+A3_ON 	LITERAL1
+A3_OFF	LITERAL1
+A4_ON 	LITERAL1
+A4_OFF	LITERAL1
+B1_ON 	LITERAL1
+B1_OFF	LITERAL1
+B2_ON 	LITERAL1
+B2_OFF	LITERAL1
+B3_ON 	LITERAL1
+B3_OFF	LITERAL1
+B4_ON 	LITERAL1
+B4_OFF	LITERAL1
+C1_ON 	LITERAL1
+C1_OFF	LITERAL1
+C2_ON 	LITERAL1
+C2_OFF	LITERAL1
+C3_ON 	LITERAL1
+C3_OFF	LITERAL1
+C4_ON 	LITERAL1
+C4_OFF	LITERAL1
+D1_ON 	LITERAL1
+D1_OFF	LITERAL1
+D2_ON 	LITERAL1
+D2_OFF	LITERAL1
+D3_ON 	LITERAL1
+D3_OFF	LITERAL1
+D4_ON 	LITERAL1
+D4_OFF	LITERAL1
+GROUP_ON LITERAL1
+GROUP_OFF LITERAL1
+UNKNOWN	LITERAL1
