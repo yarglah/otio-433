@@ -1,12 +1,30 @@
 /*
-	OTIO devices command library
-	Thierry raspberry|github@yar-glah.org 2016
+  OTIO-433 - Arduino libary for OTIO remote control devices
+  Copyright (c) 2016 Thierry raspberry|github at yar-glah.org
+  
+  Project home: 
+  https://github.com/yarglah/otio-433
+  
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #ifndef _OTIO_H
 #define _OTIO_H
 
 #include "OTIO_codes.h"
+#include <RCSwitch.h>
 
 enum OTIO_COMMAND {
 	A1_ON 	= 0,
@@ -43,28 +61,39 @@ enum OTIO_COMMAND {
 	D4_OFF	= 31,
 	GROUP_ON	= 32,
 	GROUP_OFF	= 33,
-	UNDEFINED   = 0xFF
+	UNKNOWN   = 0xFF
 };
 
-#define OTIO_09HA01	"09HA01"
-#define OTIO_09HA02	"09HA02"
+class OTIO {
+public:
+	/* Constructor.
+	- modelID: one of OTIO_09x constant
+	- deviceID: device unique identifier (command 24 less significant bits)
+	- gpio_pin_send: device GPIO pin (RCswitch notation) for transmit
+	- gpio_pin_recv: device GPIO pin (RCswitch notation) for reception 
+	Returns:
+	- 0 on success
+	- other on error:
+		- -1: for unknown model
+	*/
+	OTIO(const char *modelID, unsigned long deviceID, unsigned char gpio_pin_send, unsigned char gpio_pin_recv);
 
-/* Initialize library, must be called before any othe function.
-- modelID: one of OTIO_09x constant
-- deviceID: device unique identifier (command 24 less significant bits)
-- gpio_pin_send: device GPIO pin (RCswitch notation) for transmit
-- gpio_pin_recv: device GPIO pin (RCswitch notation) for reception 
-Returns:
-- 0 on success
-- other on error:
-	- -1: for unknown model
-*/
-int otio_init(const char *modelID, unsigned int deviceID, unsigned char gpio_pin_send, unsigned char gpio_pin_recv);
+	/* Return command code if available, UNDEFINED otherwise */
+	OTIO_COMMAND recv();
 
-/* Return command code until timeout (in seconds), UNDEFINED otherwise */
-OTIO_COMMAND otio_recv(unsigned long timeout);
+	/* Return command code until timeout (in seconds), UNDEFINED otherwise */
+	OTIO_COMMAND recv(unsigned long timeout);
 
-/* Send OTIO command */
-int otio_send(OTIO_COMMAND code);
+	/* Send OTIO command */
+	int send(OTIO_COMMAND code);
+
+private:
+	/* Internal globals */
+	RCSwitch otio_cmd_send;
+	RCSwitch otio_cmd_recv;
+	unsigned long otio_device_ID = 0;
+	const OTIO_CODES *otio_codes = NULL;
+	int otio_inited = 0;
+};
 
 #endif
