@@ -26,6 +26,7 @@
 #include "OTIO_codes.h"
 #include <RCSwitch.h>
 
+// Matching between command as defined on OTIO remote control and code.
 enum OTIO_COMMAND {
 	A1_ON 	= 0,
 	A1_OFF	= 1,
@@ -68,7 +69,7 @@ class OTIO {
 public:
 	/* Constructor.
 	- modelID: one of OTIO_09x constant
-	- deviceID: device unique identifier (command 24 less significant bits)
+	- deviceID: remote control identifier (command 24 less significant bits)
 	- gpio_pin_send: device GPIO pin (RCswitch notation) for transmit
 	- gpio_pin_recv: device GPIO pin (RCswitch notation) for reception 
 	Returns:
@@ -77,6 +78,9 @@ public:
 		- -1: for unknown model
 	*/
 	OTIO(const char *modelID, unsigned long deviceID, unsigned char gpio_pin_send, unsigned char gpio_pin_recv);
+
+	// Handle multiple remote controls. recv from any, send with first deviceID (peered with deveices)
+	OTIO(const char *modelID, unsigned long *deviceIDs, unsigned char nbDevices, unsigned char gpio_pin_send, unsigned char gpio_pin_recv);
 
 	/* Return command code if available, UNDEFINED otherwise */
 	OTIO_COMMAND recv();
@@ -87,14 +91,15 @@ public:
 	/* Send OTIO command */
 	int send(OTIO_COMMAND code);
 	
-	/* Tool to get the device ID, return device ID if signal detected, or 0 */
-	unsigned long getID();		
+	/* Helper to get the device ID, return device ID if signal detected, or 0 */
+	static unsigned long getID(unsigned char gpio_pin_recv);		
 
-private:
+protected:
 	/* Internal globals */
 	RCSwitch otio_cmd_send;
 	RCSwitch otio_cmd_recv;
-	unsigned long otio_device_ID = 0;
+	unsigned long *otio_device_IDs = NULL;
+	unsigned char otio_nbDevices = 0;
 	const OTIO_CODES *otio_codes = NULL;
 	int otio_inited = 0;
 };

@@ -21,54 +21,44 @@
 */
 
 #include <OTIO.h>
+#include <OTIO_helper.h>
 
-#define TELID 0xC3B300
-#define PIN_LED 13
+#define RC_1 0xC3B300
+#define RC_2 0xCC0100
 
-OTIO otio = OTIO(OTIO_09HA02, TELID, 10, 2);
+#define RC_PIN_SEND	2
+#define RC_PIN_RECV	9
+
+unsigned long devices[] = {RC_1, RC_2};
+
+OTIO otio = OTIO(OTIO_09HA02, devices, 2, RC_PIN_SEND, RC_PIN_RECV);
 
 void setup() {
   Serial.begin(9600);
-
-  Serial.println("Setup: A2_OFF");
   otio.send(A2_OFF);
-
-  digitalWrite(PIN_LED, LOW);
+  otio.send(A2_ON);
 }
 
 void loop() {
   OTIO_COMMAND action = otio.recv();
 
   if (action != UNKNOWN) {
-    digitalWrite(PIN_LED, HIGH);
-
-    Serial.print("Received: ");
-    Serial.println(action, HEX);
-    if (action == A2_OFF) {
-          otio.send(A2_ON);
-          Serial.println("Fiat lux !");
-    }
-    digitalWrite(PIN_LED, LOW);
+    Serial.println(commandToString(action));
+    Serial.flush();
+	otio.send(action);
   }
 
   // send data only when you receive data:
   if (Serial.available() > 0) {
           // read the incoming byte:
-          int incomingByte = Serial.read();
-
-          switch (incomingByte) {
-                  break;
-            case '2': otio.send(A2_OFF);
-              break;
-            case 10:
-            case 13:
-              break;
-           default:
-/*
-              Serial.print("Serial in: ");
-              Serial.println(incomingByte, DEC);
-              */
-              break;
+          String commandString = Serial.readStringUntil('\r');
+          Serial.flush();
+          commandString.trim();
+          OTIO_COMMAND action = stringToCommand(commandString);
+          if (action != UNKNOWN) {
+            otio.send(action);
+            Serial.println(commandToString(action));
+            Serial.flush();
           }
   }
 

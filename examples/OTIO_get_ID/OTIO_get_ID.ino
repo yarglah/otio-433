@@ -22,16 +22,13 @@
 
 #include <OTIO.h>
 
-// Initialize with no device ID
-OTIO otio = OTIO(OTIO_09HA02, 0, 10, 2);
-
 void setup() {
   Serial.begin(9600);
   Serial.println("Press remote command...");
 }
 
 void loop() {
-  unsigned long deviceID = otio.getID();
+  unsigned long deviceID = OTIO::getID(2);
 
   if (deviceID != 0) {
     Serial.print("Device ID: Ox");
